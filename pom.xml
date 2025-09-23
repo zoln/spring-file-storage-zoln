@@ -146,11 +146,19 @@
         <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
         <spotless-maven-plugin.version>2.40.0</spotless-maven-plugin.version>
         <palantir-java-format.version>2.38.0</palantir-java-format.version>
+        <commons-pom.version>1.0.0-SNAPSHOT</commons-pom.version>
         <!--endregion-->
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>pub.hikr</groupId>
+                <artifactId>commons-pom</artifactId>
+                <version>${commons-pom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
             <!--region
             1rd-->
             <dependency>
@@ -215,12 +223,6 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
-            <!-- 华为云 OBS -->
-            <dependency>
-                <groupId>com.huaweicloud</groupId>
-                <artifactId>esdk-obs-java</artifactId>
-                <version>${esdk-obs-java.version}</version>
-            </dependency>
             <!-- Amazon S3 v2 -->
             <dependency>
                 <groupId>software.amazon.awssdk</groupId>
@@ -240,30 +242,13 @@
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
 
-            <!-- SFTP -->
-            <dependency>
-                <groupId>com.jcraft</groupId>
-                <artifactId>jsch</artifactId>
-                <version>${jsch.version}</version>
-            </dependency>
-            <!-- FTP -->
-            <dependency>
-                <groupId>commons-net</groupId>
-                <artifactId>commons-net</artifactId>
-                <version>${commons-net.version}</version>
-            </dependency>
             <!-- MinIO -->
             <dependency>
                 <groupId>io.minio</groupId>
                 <artifactId>minio</artifactId>
                 <version>${minio.version}</version>
             </dependency>
-            <!-- MongoDB GridFS -->
-            <dependency>
-                <groupId>org.mongodb</groupId>
-                <artifactId>mongodb-driver-sync</artifactId>
-                <version>${mongodb-gridfs.version}</version>
-            </dependency>
+
             <!-- 又拍云 USS -->
             <dependency>
                 <groupId>com.upyun</groupId>

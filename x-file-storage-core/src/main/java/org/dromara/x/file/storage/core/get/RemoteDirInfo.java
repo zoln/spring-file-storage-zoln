@@ -7,7 +7,6 @@ import java.io.File;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.apache.commons.net.ftp.FTPFile;
 import org.dromara.x.file.storage.core.util.Tools;
 import org.json.JSONObject;
 
@@ -72,13 +71,6 @@ public class RemoteDirInfo {
     }
 
     /**
-     * 获取 FTP 存储平台的目录原始数据，失败返回 null
-     */
-    public FTPFile getOriginalFtp() {
-        return getOriginal(FTPFile.class);
-    }
-
-    /**
      * 获取 Google Cloud Storage 存储平台的目录原始数据，失败返回 null
      */
     public Blob getOriginalGoogleCloudStorage() {
@@ -119,8 +111,4 @@ public class RemoteDirInfo {
     public JSONObject getOriginalUpyunUss() {
         return getOriginal(JSONObject.class);
     }
-
-    /**
-     * 获取 WebDAV 存储平台的目录原始数据，失败返回 null
-     */
 }
