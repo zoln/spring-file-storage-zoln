@@ -11,13 +11,6 @@
     <name>X File Storage Core</name>
 
     <dependencies>
-        <!-- javax.servlet-api -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
         <!-- jakarta.servlet-api -->
         <dependency>
             <groupId>jakarta.servlet</groupId>

@@ -2,9 +2,9 @@ package org.dromara.x.file.storage.test.controller;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.crypto.SecureUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileInfo;
 import org.dromara.x.file.storage.core.FileStorageService;

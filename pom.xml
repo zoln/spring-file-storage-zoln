@@ -117,7 +117,7 @@
         <esdk-obs-java.version>3.22.12</esdk-obs-java.version>
         <google-cloud-storage.version>2.20.1</google-cloud-storage.version>
         <hutool.version>5.8.28</hutool.version>
-        <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
+
         <jakarta.servlet-api.version>5.0.0</jakarta.servlet-api.version>
         <jsch.version>0.1.55</jsch.version>
         <lombok.version>1.18.42</lombok.version>
@@ -164,12 +164,6 @@
                 <version>${project.version}</version>
             </dependency>
             <!--endregion-->
-            <!-- javax.servlet-api -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>${javax.servlet-api.version}</version>
-            </dependency>
             <!-- jakarta.servlet-api -->
             <dependency>
                 <groupId>jakarta.servlet</groupId>

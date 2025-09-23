@@ -34,7 +34,6 @@ import org.dromara.x.file.storage.core.file.ByteFileWrapperAdapter;
 import org.dromara.x.file.storage.core.file.FileWrapperAdapter;
 import org.dromara.x.file.storage.core.file.InputStreamFileWrapperAdapter;
 import org.dromara.x.file.storage.core.file.JakartaHttpServletRequestFileWrapperAdapter;
-import org.dromara.x.file.storage.core.file.JavaxHttpServletRequestFileWrapperAdapter;
 import org.dromara.x.file.storage.core.file.UriFileWrapperAdapter;
 import org.dromara.x.file.storage.core.platform.AliyunOssFileStorage;
 import org.dromara.x.file.storage.core.platform.AliyunOssFileStorageClientFactory;
@@ -183,9 +182,6 @@ public class FileStorageServiceBuilder {
      * 添加 HttpServletRequest 文件包装适配器
      */
     public FileStorageServiceBuilder addHttpServletRequestFileWrapperAdapter() {
-        if (!doesNotExistClass("javax.servlet.http.HttpServletRequest")) {
-            fileWrapperAdapterList.add(new JavaxHttpServletRequestFileWrapperAdapter());
-        }
         if (!doesNotExistClass("jakarta.servlet.http.HttpServletRequest")) {
             fileWrapperAdapterList.add(new JakartaHttpServletRequestFileWrapperAdapter());
         }
