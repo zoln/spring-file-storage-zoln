@@ -60,20 +60,6 @@ public interface Constant {
     }
 
     /**
-     * 华为云 OBS 的 ACL
-     * {@link com.obs.services.model.AccessControlList}
-     * {@link com.obs.services.internal.IConvertor#transCannedAcl(String)}
-     */
-    interface HuaweiObsACL extends ACL {
-        String PUBLIC_READ_DELIVERED = "public-read-delivered";
-        String PUBLIC_READ_WRITE_DELIVERED = "public-read-write-delivered";
-        String AUTHENTICATED_READ = "authenticated-read";
-        String BUCKET_OWNER_READ = "bucket-owner-read";
-        String BUCKET_OWNER_FULL_CONTROL = "bucket-owner-full-control";
-        String LOG_DELIVERY_WRITE = "log-delivery-write";
-    }
-
-    /**
      * 百度云 BOS 的 ACL
      * {@link com.baidubce.services.bos.model.CannedAccessControlList}
      */

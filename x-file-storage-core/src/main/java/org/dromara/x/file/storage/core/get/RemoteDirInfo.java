@@ -1,9 +1,7 @@
 package org.dromara.x.file.storage.core.get;
 
 import com.azure.storage.blob.implementation.models.BlobPrefixInternal;
-import com.github.sardine.DavResource;
 import com.google.cloud.storage.Blob;
-import com.jcraft.jsch.ChannelSftp;
 import io.minio.messages.Prefix;
 import java.io.File;
 import lombok.Data;
@@ -74,13 +72,6 @@ public class RemoteDirInfo {
     }
 
     /**
-     * 获取百度云 BOS 存储平台的目录原始数据，失败返回 null，
-     */
-    public String getOriginalBaiduBos() {
-        return getOriginal(String.class);
-    }
-
-    /**
      * 获取 FTP 存储平台的目录原始数据，失败返回 null
      */
     public FTPFile getOriginalFtp() {
@@ -92,13 +83,6 @@ public class RemoteDirInfo {
      */
     public Blob getOriginalGoogleCloudStorage() {
         return getOriginal(Blob.class);
-    }
-
-    /**
-     * 获取华为云 OBS 存储平台的目录原始数据，失败返回 null
-     */
-    public String getOriginalHuaweiObs() {
-        return getOriginal(String.class);
     }
 
     /**
@@ -123,13 +107,6 @@ public class RemoteDirInfo {
     }
 
     /**
-     * 获取 SFTP 存储平台的目录原始数据，失败返回 null
-     */
-    public ChannelSftp.LsEntry getOriginalSftp() {
-        return getOriginal(ChannelSftp.LsEntry.class);
-    }
-
-    /**
      * 获取腾讯云 COS 存储平台的目录原始数据，失败返回 null，
      */
     public String getOriginalTencentCos() {
@@ -146,14 +123,4 @@ public class RemoteDirInfo {
     /**
      * 获取 WebDAV 存储平台的目录原始数据，失败返回 null
      */
-    public DavResource getOriginalWebDav() {
-        return getOriginal(DavResource.class);
-    }
-
-    /**
-     * 获取 Mongo GridFS 存储平台的目录原始数据，失败返回 null，
-     */
-    public String getOriginalMongoGridFs() {
-        return getOriginal(String.class);
-    }
 }

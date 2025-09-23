@@ -1,11 +1,12 @@
 package org.dromara.x.file.storage.core;
 
 import cn.hutool.core.map.MapBuilder;
-import cn.hutool.core.util.StrUtil;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -56,21 +57,6 @@ public class FileStorageProperties {
     private Boolean moveNotSupportAclThrowException = true;
 
     /**
-     * 本地存储
-     */
-    private List<? extends LocalConfig> local = new ArrayList<>();
-
-    /**
-     * 本地存储
-     */
-    private List<? extends LocalPlusConfig> localPlus = new ArrayList<>();
-
-    /**
-     * 华为云 OBS
-     */
-    private List<? extends HuaweiObsConfig> huaweiObs = new ArrayList<>();
-
-    /**
      * 阿里云 OSS
      */
     private List<? extends AliyunOssConfig> aliyunOss = new ArrayList<>();
@@ -84,11 +70,6 @@ public class FileStorageProperties {
      * 腾讯云 COS
      */
     private List<? extends TencentCosConfig> tencentCos = new ArrayList<>();
-
-    /**
-     * 百度云 BOS
-     */
-    private List<? extends BaiduBosConfig> baiduBos = new ArrayList<>();
 
     /**
      * 又拍云 USS
@@ -111,44 +92,14 @@ public class FileStorageProperties {
     private List<? extends AmazonS3V2Config> amazonS3V2 = new ArrayList<>();
 
     /**
-     * FTP
-     */
-    private List<? extends FtpConfig> ftp = new ArrayList<>();
-
-    /**
-     * FTP
-     */
-    private List<? extends SftpConfig> sftp = new ArrayList<>();
-
-    /**
-     * WebDAV
-     */
-    private List<? extends WebDavConfig> webdav = new ArrayList<>();
-
-    /**
      * 谷歌云存储
      */
     private List<? extends GoogleCloudStorageConfig> googleCloudStorage = new ArrayList<>();
 
     /**
-     * FastDFS
-     */
-    private List<? extends FastDfsConfig> fastdfs = new ArrayList<>();
-
-    /**
      * Azure Blob Storage
      */
     private List<? extends AzureBlobStorageConfig> azureBlob = new ArrayList<>();
-
-    /**
-     * Mongo GridFS
-     */
-    private List<? extends MongoGridFsConfig> mongoGridFs = new ArrayList<>();
-
-    /**
-     * GoFastDFS
-     */
-    private List<? extends GoFastDfsConfig> goFastdfs = new ArrayList<>();
 
     /**
      * 火山引擎 TOS
@@ -166,107 +117,6 @@ public class FileStorageProperties {
          * 存储平台
          */
         private String platform = "";
-    }
-
-    /**
-     * 本地存储
-     */
-    @Deprecated
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class LocalConfig extends BaseConfig {
-
-        /**
-         * 本地存储路径
-         */
-        private String basePath = "";
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * 本地存储升级版
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class LocalPlusConfig extends BaseConfig {
-
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-
-        /**
-         * 存储路径，上传的文件都会存储在这个路径下面，默认"/"，注意"/"结尾
-         */
-        private String storagePath = "/";
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * 华为云 OBS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class HuaweiObsConfig extends BaseConfig {
-
-        private String accessKey;
-
-        private String secretKey;
-
-        private String endPoint;
-
-        private String bucketName;
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-
-        /**
-         * 默认的 ACL，详情 {@link Constant.HuaweiObsACL}
-         */
-        private String defaultAcl;
-
-        /**
-         * 自动分片上传阈值，达到此大小则使用分片上传，默认 128MB
-         */
-        private int multipartThreshold = 128 * 1024 * 1024;
-
-        /**
-         * 自动分片上传时每个分片大小，默认 32MB
-         */
-        private int multipartPartSize = 32 * 1024 * 1024;
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
     }
 
     /**
@@ -374,53 +224,6 @@ public class FileStorageProperties {
 
         /**
          * 默认的 ACL，详情 {@link Constant.TencentCosACL}
-         */
-        private String defaultAcl;
-
-        /**
-         * 自动分片上传阈值，达到此大小则使用分片上传，默认 128MB
-         */
-        private int multipartThreshold = 128 * 1024 * 1024;
-
-        /**
-         * 自动分片上传时每个分片大小，默认 32MB
-         */
-        private int multipartPartSize = 32 * 1024 * 1024;
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * 百度云 BOS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class BaiduBosConfig extends BaseConfig {
-
-        private String accessKey;
-
-        private String secretKey;
-
-        private String endPoint;
-
-        private String bucketName;
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-
-        /**
-         * 默认的 ACL，详情 {@link Constant.BaiduBosACL}
          */
         private String defaultAcl;
 
@@ -616,204 +419,6 @@ public class FileStorageProperties {
         private Map<String, Object> attr = new LinkedHashMap<>();
     }
 
-    /**
-     * FTP
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class FtpConfig extends BaseConfig {
-
-        /**
-         * 主机
-         */
-        private String host;
-
-        /**
-         * 端口，默认21
-         */
-        private int port = 21;
-
-        /**
-         * 用户名，默认 anonymous（匿名）
-         */
-        private String user = "anonymous";
-
-        /**
-         * 密码，默认空
-         */
-        private String password = "";
-
-        /**
-         * 编码，默认UTF-8
-         */
-        private Charset charset = StandardCharsets.UTF_8;
-
-        /**
-         * 连接超时时长，单位毫秒，默认10秒 {@link org.apache.commons.net.SocketClient#setConnectTimeout(int)}
-         */
-        private long connectionTimeout = 10 * 1000;
-
-        /**
-         * Socket连接超时时长，单位毫秒，默认10秒 {@link org.apache.commons.net.SocketClient#setSoTimeout(int)}
-         */
-        private long soTimeout = 10 * 1000;
-
-        /**
-         * 设置服务器语言，默认空，{@link org.apache.commons.net.ftp.FTPClientConfig#setServerLanguageCode(String)}
-         */
-        private String serverLanguageCode;
-
-        /**
-         * 服务器标识，默认空，{@link org.apache.commons.net.ftp.FTPClientConfig#FTPClientConfig(String)}
-         * 例如：org.apache.commons.net.ftp.FTPClientConfig.SYST_NT
-         */
-        private String systemKey;
-
-        /**
-         * 是否主动模式，默认被动模式
-         */
-        private Boolean isActive = false;
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-
-        /**
-         * 存储路径，上传的文件都会存储在这个路径下面，默认"/"，注意"/"结尾
-         */
-        private String storagePath = "/";
-
-        /**
-         * Client 对象池配置
-         */
-        private CommonClientPoolConfig pool = new CommonClientPoolConfig();
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * SFTP
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SftpConfig extends BaseConfig {
-
-        /**
-         * 主机
-         */
-        private String host;
-
-        /**
-         * 端口，默认22
-         */
-        private int port = 22;
-
-        /**
-         * 用户名
-         */
-        private String user;
-
-        /**
-         * 密码
-         */
-        private String password;
-
-        /**
-         * 私钥路径
-         */
-        private String privateKeyPath;
-
-        /**
-         * 编码，默认UTF-8
-         */
-        private Charset charset = StandardCharsets.UTF_8;
-
-        /**
-         * 连接超时时长，单位毫秒，默认10秒
-         */
-        private int connectionTimeout = 10 * 1000;
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-
-        /**
-         * 存储路径，上传的文件都会存储在这个路径下面，默认"/"，注意"/"结尾
-         */
-        private String storagePath = "/";
-
-        /**
-         * Client 对象池配置
-         */
-        private CommonClientPoolConfig pool = new CommonClientPoolConfig();
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * WebDAV
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class WebDavConfig extends BaseConfig {
-
-        /**
-         * 服务器地址，注意"/"结尾，例如：http://192.168.1.105:8405/
-         */
-        private String server;
-
-        /**
-         * 用户名
-         */
-        private String user;
-
-        /**
-         * 密码
-         */
-        private String password;
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-
-        /**
-         * 存储路径，上传的文件都会存储在这个路径下面，默认"/"，注意"/"结尾
-         */
-        private String storagePath = "/";
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
     @Data
     @Accessors(chain = true)
     @EqualsAndHashCode(callSuper = true)
@@ -847,173 +452,6 @@ public class FileStorageProperties {
          * 其它自定义配置
          */
         private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * FastDFS
-     * 兼容性说明：https://x-file-storage.xuyanwu.cn/2.3.0/#/%E5%AD%98%E5%82%A8%E5%B9%B3%E5%8F%B0?id=OCI_FastDFS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class FastDfsConfig extends BaseConfig {
-        /**
-         * 运行模式，由于 FastDFS 比较特殊，不支持自定义文件名及路径，所以使用运行模式来解决这个问题。
-         * 详情请查看：https://x-file-storage.xuyanwu.cn/2.3.0/#/%E5%AD%98%E5%82%A8%E5%B9%B3%E5%8F%B0?id=OCI_FastDFS
-         */
-        private RunMod runMod = RunMod.COVER;
-
-        /**
-         * Tracker Server 配置
-         */
-        private FastDfsTrackerServer trackerServer;
-
-        /**
-         * Storage Server 配置（当不使用 Tracker Server 时使用）
-         */
-        private FastDfsStorageServer storageServer;
-
-        /**
-         * 额外扩展配置
-         */
-        private FastDfsExtra extra;
-
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-
-        /**
-         * 基础路径，强烈建议留空
-         * 仅在上传成功时和获取文件时原样传到 FileInfo 及 RemoteFileInfo 中，可以用来保存到数据库中使用，
-         * 实际上作用也不大，还会破坏 url 约定（url：实际上就是 domain + basePath + path + filename），
-         * 约定详情见文档 https://x-file-storage.xuyanwu.cn/2.3.0/#/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98?id=%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E5%8F%8A-fileinfo-%E4%B8%AD%E5%90%84%E7%A7%8D%E8%B7%AF%E5%BE%84%EF%BC%88path%EF%BC%89%E7%9A%84%E5%8C%BA%E5%88%AB%EF%BC%9F
-         * FastDFS 兼容性说明：https://x-file-storage.xuyanwu.cn/2.3.0/#/%E5%AD%98%E5%82%A8%E5%B9%B3%E5%8F%B0?id=OCI_FastDFS
-         */
-        private String basePath = "";
-
-        /**
-         * 自动分片上传阈值，达到此大小则使用分片上传，默认 128MB
-         */
-        private int multipartThreshold = 128 * 1024 * 1024;
-
-        /**
-         * 自动分片上传时每个分片大小，默认 32MB
-         */
-        private int multipartPartSize = 32 * 1024 * 1024;
-
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-
-        public String getGroupName() {
-            return Optional.ofNullable(extra).map(FastDfsExtra::getGroupName).orElse(StrUtil.EMPTY);
-        }
-
-        /**
-         * 运行模式
-         */
-        public enum RunMod {
-            /**
-             * 覆盖模式，强制用 FastDFS 返回的路径及文件名覆盖 FileInfo 中的 path 及 filename。
-             * 详情请查看：https://x-file-storage.xuyanwu.cn/2.3.0/#/%E5%AD%98%E5%82%A8%E5%B9%B3%E5%8F%B0?id=OCI_FastDFS
-             */
-            COVER,
-            /**
-             * URL模式，不覆盖 FileInfo 中的 path 及 filename。通过 url 解析 FastDFS 支持的路径及文件名
-             * 详情请查看：https://x-file-storage.xuyanwu.cn/2.3.0/#/%E5%AD%98%E5%82%A8%E5%B9%B3%E5%8F%B0?id=OCI_FastDFS
-             */
-            URL;
-        }
-
-        @Data
-        @Accessors(chain = true)
-        @EqualsAndHashCode
-        public static class FastDfsTrackerServer {
-
-            /**
-             * Tracker Server 地址（IP:PORT），多个用英文逗号隔开
-             */
-            private String serverAddr;
-
-            /**
-             * HTTP端口，默认：80
-             */
-            private Integer httpPort = 80;
-        }
-
-        @Data
-        @Accessors(chain = true)
-        @EqualsAndHashCode
-        public static class FastDfsStorageServer {
-
-            /**
-             * Storage Server 地址:IP:PORT
-             */
-            private String serverAddr;
-
-            /**
-             * Store path，默认 0
-             */
-            private Integer storePath = 0;
-        }
-
-        @Data
-        @Accessors(chain = true)
-        @EqualsAndHashCode
-        public static class FastDfsExtra {
-
-            /**
-             * 组名，可以为空
-             */
-            private String groupName = "";
-
-            /**
-             * 连接超时，单位：秒，默认：5s
-             */
-            private Integer connectTimeoutInSeconds = 5;
-
-            /**
-             * 套接字超时，单位：秒，默认：30s
-             */
-            private Integer networkTimeoutInSeconds = 30;
-
-            /**
-             * 字符编码，默认：UTF-8
-             */
-            private Charset charset = StandardCharsets.UTF_8;
-
-            /**
-             * token 防盗链 默认：false
-             */
-            private Boolean httpAntiStealToken = false;
-
-            /**
-             * 安全密钥，默认：FastDFS1234567890
-             */
-            private String httpSecretKey = "FastDFS1234567890";
-
-            /**
-             * 是否启用连接池。默认：true
-             */
-            private Boolean connectionPoolEnabled = true;
-
-            /**
-             * #每一个IP:Port的最大连接数，0为没有限制，默认：100
-             */
-            private Integer connectionPoolMaxCountPerEntry = 100;
-
-            /**
-             * 连接池最大空闲时间。单位：秒，默认：3600
-             */
-            private Integer connectionPoolMaxIdleTime = 3600;
-
-            /**
-             * 连接池最大等待时间。单位：毫秒，默认：1000
-             */
-            private Integer connectionPoolMaxWaitTimeInMs = 1000;
-        }
     }
 
     @Data
@@ -1078,85 +516,9 @@ public class FileStorageProperties {
                 .put(Constant.GeneratePresignedUrl.Method.GET, "r") // 获取
                 .put(Constant.GeneratePresignedUrl.Method.PUT, "w") // 上传
                 .put(Constant.GeneratePresignedUrl.Method.DELETE, "d") // 删除
-                // .put("ALL", "racwdxytlmei")    //自定义一个名为 ALL 的 method，赋予所有权限
+                // .put("ALL", "racwdxytlmei") //自定义一个名为 ALL 的 method，赋予所有权限
                 .build();
 
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * Mongo GridFS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class MongoGridFsConfig extends BaseConfig {
-        /**
-         * 链接字符串
-         */
-        private String connectionString;
-        /**
-         * 数据库名称
-         */
-        private String database;
-        /**
-         * 存储桶名称
-         */
-        private String bucketName;
-        /**
-         * 访问域名
-         */
-        private String domain = "";
-        /**
-         * 基础路径
-         */
-        private String basePath = "";
-        /**
-         * 其它自定义配置
-         */
-        private Map<String, Object> attr = new LinkedHashMap<>();
-    }
-
-    /**
-     * GoFastDFS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class GoFastDfsConfig extends BaseConfig {
-
-        /**
-         * http://172.24.5.163:8080
-         */
-        private String server;
-
-        /**
-         * 服务器组名
-         */
-        private String group;
-
-        /**
-         * 服务器场景
-         */
-        private String scene;
-
-        /**
-         * 超时时间
-         */
-        private Integer timeout;
-
-        /**
-         * domain
-         */
-        private String domain;
-
-        /**
-         * 上传时候base路径
-         */
-        private String basePath;
         /**
          * 其它自定义配置
          */
@@ -1213,7 +575,8 @@ public class FileStorageProperties {
     }
 
     /**
-     * 通用的 Client 对象池配置，详情见 {@link org.apache.commons.pool2.impl.GenericObjectPoolConfig}
+     * 通用的 Client 对象池配置，详情见
+     * {@link org.apache.commons.pool2.impl.GenericObjectPoolConfig}
      */
     @Data
     @Accessors(chain = true)

@@ -81,7 +81,6 @@
     <modules>
         <module>x-file-storage-spring</module>
         <module>x-file-storage-core</module>
-        <module>x-file-storage-solon</module>
     </modules>
 
     <scm>
@@ -92,9 +91,10 @@
 
     <properties>
         <revision>2.3.0</revision>
-        <!--region Maven Base-->
+        <!--region
+        Maven Base-->
         <maven.version>3.9.9</maven.version>
-        <java.version>8</java.version>
+        <java.version>21</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -106,11 +106,11 @@
         <!-- Solon 组件 -->
         <solon.version>2.8.4</solon.version>
 
-        <!--region 3rd SDK-->
+        <!--region
+        3rd SDK-->
         <aliyun-sdk-oss.version>3.16.1</aliyun-sdk-oss.version>
         <aws-java-sdk-s3.version>1.12.429</aws-java-sdk-s3.version>
         <aws-java-sdk-s3-v2.version>2.29.29</aws-java-sdk-s3-v2.version>
-        <bce-java-sdk.version>0.10.251</bce-java-sdk.version>
         <commons-net.version>3.9.0</commons-net.version>
         <commons-pool2.version>2.11.1</commons-pool2.version>
         <cos_api.version>5.6.137</cos_api.version>
@@ -120,11 +120,10 @@
         <javax.servlet-api.version>4.0.1</javax.servlet-api.version>
         <jakarta.servlet-api.version>5.0.0</jakarta.servlet-api.version>
         <jsch.version>0.1.55</jsch.version>
-        <lombok.version>1.18.16</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
         <minio.version>8.5.2</minio.version>
         <mongodb-gridfs.version>4.6.1</mongodb-gridfs.version>
         <qiniu-java-sdk.version>7.12.1</qiniu-java-sdk.version>
-        <sardine.version>5.10</sardine.version>
         <thumbnailator.version>0.4.20</thumbnailator.version>
         <tika-core.version>2.4.1</tika-core.version>
         <upyun-java-sdk.version>4.2.3</upyun-java-sdk.version>
@@ -134,7 +133,8 @@
         <ve-tos-java-sdk.version>2.8.8</ve-tos-java-sdk.version>
         <!--endregion-->
 
-        <!--region Maven Plugins-->
+        <!--region
+        Maven Plugins-->
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
         <sorter-maven-plugin.version>1.0.1</sorter-maven-plugin.version>
         <maven-source-plugin.version>3.2.1</maven-source-plugin.version>
@@ -151,7 +151,8 @@
 
     <dependencyManagement>
         <dependencies>
-            <!--region 1rd-->
+            <!--region
+            1rd-->
             <dependency>
                 <groupId>org.dromara.x-file-storage</groupId>
                 <artifactId>x-file-storage-spring</artifactId>
@@ -201,7 +202,8 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!--region Spring Boot-->
+            <!--region
+            Spring Boot-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
@@ -243,18 +245,7 @@
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>${aliyun-sdk-oss.version}</version>
             </dependency>
-            <!-- 百度云 BOS -->
-            <dependency>
-                <groupId>com.baidubce</groupId>
-                <artifactId>bce-java-sdk</artifactId>
-                <version>${bce-java-sdk.version}</version>
-            </dependency>
-            <!-- WebDAV -->
-            <dependency>
-                <groupId>com.github.lookfirst</groupId>
-                <artifactId>sardine</artifactId>
-                <version>${sardine.version}</version>
-            </dependency>
+
             <!-- SFTP -->
             <dependency>
                 <groupId>com.jcraft</groupId>
@@ -303,12 +294,7 @@
                 <artifactId>google-cloud-storage</artifactId>
                 <version>${google-cloud-storage.version}</version>
             </dependency>
-            <!-- FastDFS -->
-            <dependency>
-                <groupId>io.github.rui8832</groupId>
-                <artifactId>fastdfs-client-java</artifactId>
-                <version>${fastdfs-client-java.version}</version>
-            </dependency>
+
             <!-- Azure Blob -->
             <dependency>
                 <groupId>com.azure</groupId>
@@ -427,9 +413,9 @@
 
     <profiles>
         <profile>
-            <id>jdk9</id>
+            <id>jdk21</id>
             <activation>
-                <jdk>[9,)</jdk>
+                <jdk>[21,)</jdk>
             </activation>
             <properties>
                 <maven.compiler.release>${java.version}</maven.compiler.release>

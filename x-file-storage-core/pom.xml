@@ -60,30 +60,7 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <!-- 百度云 BOS -->
-        <dependency>
-            <groupId>com.baidubce</groupId>
-            <artifactId>bce-java-sdk</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-core</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jdk.tools</groupId>
-                    <artifactId>jdk.tools</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- WebDAV -->
-        <dependency>
-            <groupId>com.github.lookfirst</groupId>
-            <artifactId>sardine</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
+
         <!-- SFTP -->
         <dependency>
             <groupId>com.jcraft</groupId>
@@ -140,13 +117,7 @@
             <scope>provided</scope>
             <optional>true</optional>
         </dependency>
-        <!-- FastDFS Storage -->
-        <dependency>
-            <groupId>io.github.rui8832</groupId>
-            <artifactId>fastdfs-client-java</artifactId>
-            <scope>provided</scope>
-            <optional>true</optional>
-        </dependency>
+
         <!-- Azure Blob -->
         <dependency>
             <groupId>com.azure</groupId>

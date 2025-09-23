@@ -7,7 +7,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 import org.dromara.x.file.storage.core.FileStorageProperties;
-import org.dromara.x.file.storage.core.FileStorageProperties.*;
+import org.dromara.x.file.storage.core.FileStorageProperties.AliyunOssConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.AmazonS3Config;
+import org.dromara.x.file.storage.core.FileStorageProperties.AmazonS3V2Config;
+import org.dromara.x.file.storage.core.FileStorageProperties.AzureBlobStorageConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.GoogleCloudStorageConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.MinioConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.QiniuKodoConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.TencentCosConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.UpyunUssConfig;
+import org.dromara.x.file.storage.core.FileStorageProperties.VolcengineTosConfig;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -22,7 +31,7 @@ public class SpringFileStorageProperties {
     /**
      * 默认存储平台
      */
-    private String defaultPlatform = "local";
+    private String defaultPlatform = "";
     /**
      * 缩略图后缀，例如【.min.jpg】【.png】
      */
@@ -64,10 +73,6 @@ public class SpringFileStorageProperties {
      */
     private Boolean enableInputStreamFileWrapper = true;
     /**
-     * 启用本地文件包装适配器
-     */
-    private Boolean enableLocalFileWrapper = true;
-    /**
      * 启用 HttpServletRequest 文件包装适配器
      */
     private Boolean enableHttpServletRequestFileWrapper = true;
@@ -75,19 +80,6 @@ public class SpringFileStorageProperties {
      * 启用 MultipartFile 文件包装适配器
      */
     private Boolean enableMultipartFileWrapper = true;
-    /**
-     * 本地存储
-     */
-    @Deprecated
-    private List<? extends SpringLocalConfig> local = new ArrayList<>();
-    /**
-     * 本地存储
-     */
-    private List<? extends SpringLocalPlusConfig> localPlus = new ArrayList<>();
-    /**
-     * 华为云 OBS
-     */
-    private List<? extends SpringHuaweiObsConfig> huaweiObs = new ArrayList<>();
     /**
      * 阿里云 OSS
      */
@@ -101,15 +93,11 @@ public class SpringFileStorageProperties {
      */
     private List<? extends SpringTencentCosConfig> tencentCos = new ArrayList<>();
     /**
-     * 百度云 BOS
-     */
-    private List<? extends SpringBaiduBosConfig> baiduBos = new ArrayList<>();
-    /**
      * 又拍云 USS
      */
     private List<? extends SpringUpyunUssConfig> upyunUss = new ArrayList<>();
     /**
-     * MinIO USS
+     * MinIO
      */
     private List<? extends SpringMinioConfig> minio = new ArrayList<>();
 
@@ -124,44 +112,14 @@ public class SpringFileStorageProperties {
     private List<? extends SpringAmazonS3V2Config> amazonS3V2 = new ArrayList<>();
 
     /**
-     * FTP
-     */
-    private List<? extends SpringFtpConfig> ftp = new ArrayList<>();
-
-    /**
-     * FTP
-     */
-    private List<? extends SpringSftpConfig> sftp = new ArrayList<>();
-
-    /**
-     * WebDAV
-     */
-    private List<? extends SpringWebDavConfig> webdav = new ArrayList<>();
-
-    /**
      * GoogleCloud Storage
      */
     private List<? extends SpringGoogleCloudStorageConfig> googleCloudStorage = new ArrayList<>();
 
     /**
-     * FastDFS
-     */
-    private List<? extends SpringFastDfsConfig> fastdfs = new ArrayList<>();
-
-    /**
      * Azure Blob Storage
      */
     private List<? extends SpringAzureBlobStorageConfig> azureBlob = new ArrayList<>();
-
-    /**
-     * Mongo GridFS
-     */
-    private List<? extends SpringMongoGridFsConfig> mongoGridFs = new ArrayList<>();
-
-    /**
-     * GoFastDFS
-     */
-    private List<? extends SpringGoFastDfsConfig> goFastdfs = new ArrayList<>();
 
     /**
      * 火山引擎 TOS
@@ -181,14 +139,6 @@ public class SpringFileStorageProperties {
         properties.setCopyNotSupportAclThrowException(copyNotSupportAclThrowException);
         properties.setMoveNotSupportMetadataThrowException(moveNotSupportMetadataThrowException);
         properties.setMoveNotSupportAclThrowException(moveNotSupportAclThrowException);
-        properties.setLocal(
-                local.stream().filter(SpringLocalConfig::getEnableStorage).collect(Collectors.toList()));
-        properties.setLocalPlus(localPlus.stream()
-                .filter(SpringLocalPlusConfig::getEnableStorage)
-                .collect(Collectors.toList()));
-        properties.setHuaweiObs(huaweiObs.stream()
-                .filter(SpringHuaweiObsConfig::getEnableStorage)
-                .collect(Collectors.toList()));
         properties.setAliyunOss(aliyunOss.stream()
                 .filter(SpringAliyunOssConfig::getEnableStorage)
                 .collect(Collectors.toList()));
@@ -198,8 +148,6 @@ public class SpringFileStorageProperties {
         properties.setTencentCos(tencentCos.stream()
                 .filter(SpringTencentCosConfig::getEnableStorage)
                 .collect(Collectors.toList()));
-        properties.setBaiduBos(
-                baiduBos.stream().filter(SpringBaiduBosConfig::getEnableStorage).collect(Collectors.toList()));
         properties.setUpyunUss(
                 upyunUss.stream().filter(SpringUpyunUssConfig::getEnableStorage).collect(Collectors.toList()));
         properties.setMinio(
@@ -209,86 +157,18 @@ public class SpringFileStorageProperties {
         properties.setAmazonS3V2(amazonS3V2.stream()
                 .filter(SpringAmazonS3V2Config::getEnableStorage)
                 .collect(Collectors.toList()));
-        properties.setFtp(ftp.stream().filter(SpringFtpConfig::getEnableStorage).collect(Collectors.toList()));
-        properties.setSftp(
-                sftp.stream().filter(SpringSftpConfig::getEnableStorage).collect(Collectors.toList()));
-        properties.setWebdav(
-                webdav.stream().filter(SpringWebDavConfig::getEnableStorage).collect(Collectors.toList()));
+
         properties.setGoogleCloudStorage(googleCloudStorage.stream()
                 .filter(SpringGoogleCloudStorageConfig::getEnableStorage)
                 .collect(Collectors.toList()));
-        properties.setFastdfs(
-                fastdfs.stream().filter(SpringFastDfsConfig::getEnableStorage).collect(Collectors.toList()));
         properties.setAzureBlob(azureBlob.stream()
                 .filter(SpringAzureBlobStorageConfig::getEnableStorage)
-                .collect(Collectors.toList()));
-        properties.setMongoGridFs(mongoGridFs.stream()
-                .filter(SpringMongoGridFsConfig::getEnableStorage)
-                .collect(Collectors.toList()));
-        properties.setGoFastdfs(goFastdfs.stream()
-                .filter(SpringGoFastDfsConfig::getEnableStorage)
                 .collect(Collectors.toList()));
         properties.setVolcengineTos(volcengineTos.stream()
                 .filter(SpringVolcengineTosConfig::getEnableStorage)
                 .collect(Collectors.toList()));
 
         return properties;
-    }
-
-    /**
-     * 本地存储
-     */
-    @Deprecated
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringLocalConfig extends LocalConfig {
-        /**
-         * 本地存储访问路径
-         */
-        private String[] pathPatterns = new String[0];
-        /**
-         * 启用本地存储
-         */
-        private Boolean enableStorage = false;
-        /**
-         * 启用本地访问
-         */
-        private Boolean enableAccess = false;
-    }
-
-    /**
-     * 本地存储升级版
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringLocalPlusConfig extends LocalPlusConfig {
-        /**
-         * 本地存储访问路径
-         */
-        private String[] pathPatterns = new String[0];
-        /**
-         * 启用本地存储
-         */
-        private Boolean enableStorage = false;
-        /**
-         * 启用本地访问
-         */
-        private Boolean enableAccess = false;
-    }
-
-    /**
-     * 华为云 OBS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringHuaweiObsConfig extends HuaweiObsConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
     }
 
     /**
@@ -324,19 +204,6 @@ public class SpringFileStorageProperties {
     @Accessors(chain = true)
     @EqualsAndHashCode(callSuper = true)
     public static class SpringTencentCosConfig extends TencentCosConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
-     * 百度云 BOS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringBaiduBosConfig extends BaiduBosConfig {
         /**
          * 启用存储
          */
@@ -396,45 +263,6 @@ public class SpringFileStorageProperties {
     }
 
     /**
-     * FTP
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringFtpConfig extends FtpConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
-     * SFTP
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringSftpConfig extends SftpConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
-     * WebDAV
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringWebDavConfig extends WebDavConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
      * GoogleCloud Storage
      */
     @Data
@@ -448,53 +276,12 @@ public class SpringFileStorageProperties {
     }
 
     /**
-     * FastDFS Storage
-     * @author XS <wanghaiqi@beeplay123.com>
-     * @date 2023/10/23
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringFastDfsConfig extends FastDfsConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
      * AzureBlob Storage
      */
     @Data
     @Accessors(chain = true)
     @EqualsAndHashCode(callSuper = true)
     public static class SpringAzureBlobStorageConfig extends AzureBlobStorageConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
-     * Mongo GridFS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringMongoGridFsConfig extends MongoGridFsConfig {
-        /**
-         * 启用存储
-         */
-        private Boolean enableStorage = false;
-    }
-
-    /**
-     * GoFastDFS
-     */
-    @Data
-    @Accessors(chain = true)
-    @EqualsAndHashCode(callSuper = true)
-    public static class SpringGoFastDfsConfig extends GoFastDfsConfig {
         /**
          * 启用存储
          */

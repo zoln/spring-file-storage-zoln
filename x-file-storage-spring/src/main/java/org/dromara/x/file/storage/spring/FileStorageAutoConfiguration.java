@@ -4,7 +4,6 @@ import static org.dromara.x.file.storage.core.FileStorageServiceBuilder.doesNotE
 
 import java.util.ArrayList;
 import java.util.List;
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.dromara.x.file.storage.core.FileStorageService;
 import org.dromara.x.file.storage.core.FileStorageServiceBuilder;
@@ -18,19 +17,14 @@ import org.dromara.x.file.storage.core.tika.ContentTypeDetect;
 import org.dromara.x.file.storage.core.tika.DefaultTikaFactory;
 import org.dromara.x.file.storage.core.tika.TikaContentTypeDetect;
 import org.dromara.x.file.storage.core.tika.TikaFactory;
-import org.dromara.x.file.storage.spring.SpringFileStorageProperties.SpringLocalConfig;
-import org.dromara.x.file.storage.spring.SpringFileStorageProperties.SpringLocalPlusConfig;
 import org.dromara.x.file.storage.spring.file.MultipartFileWrapperAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Slf4j
 @Configuration
@@ -106,9 +100,6 @@ public class FileStorageAutoConfiguration {
         if (properties.getEnableInputStreamFileWrapper()) {
             builder.addInputStreamFileWrapperAdapter();
         }
-        if (properties.getEnableLocalFileWrapper()) {
-            builder.addLocalFileWrapperAdapter();
-        }
         if (properties.getEnableHttpServletRequestFileWrapper()) {
             if (doesNotExistClass("javax.servlet.http.HttpServletRequest")
                     && doesNotExistClass("jakarta.servlet.http.HttpServletRequest")) {
@@ -126,22 +117,6 @@ public class FileStorageAutoConfiguration {
                 builder.addFileWrapperAdapter(new MultipartFileWrapperAdapter());
             }
         }
-
-        if (doesNotExistClass("org.springframework.web.servlet.config.annotation.WebMvcConfigurer")) {
-            long localAccessNum = properties.getLocal().stream()
-                    .filter(SpringLocalConfig::getEnableStorage)
-                    .filter(SpringLocalConfig::getEnableAccess)
-                    .count();
-            long localPlusAccessNum = properties.getLocalPlus().stream()
-                    .filter(SpringLocalPlusConfig::getEnableStorage)
-                    .filter(SpringLocalPlusConfig::getEnableAccess)
-                    .count();
-
-            if (localAccessNum + localPlusAccessNum > 0) {
-                log.warn("当前未检测到 SpringWeb 环境，无法开启本地存储平台的本地访问功能，请将关闭本地访问来消除此警告");
-            }
-        }
-
         return builder.build();
     }
 
@@ -152,39 +127,5 @@ public class FileStorageAutoConfiguration {
     public void onContextRefreshedEvent() {
         FileStorageService service = applicationContext.getBean(FileStorageService.class);
         service.setSelf(service);
-    }
-
-    /**
-     * 本地存储文件访问自动配置类
-     */
-    @Configuration
-    @ConditionalOnClass(name = "org.springframework.web.servlet.config.annotation.WebMvcConfigurer")
-    public static class FileStorageLocalFileAccessAutoConfiguration {
-        @Autowired
-        private SpringFileStorageProperties properties;
-
-        /**
-         * 配置本地存储的访问地址
-         */
-        @Bean
-        public WebMvcConfigurer fileStorageWebMvcConfigurer() {
-            return new WebMvcConfigurer() {
-                @Override
-                public void addResourceHandlers(@NonNull ResourceHandlerRegistry registry) {
-                    for (SpringLocalConfig local : properties.getLocal()) {
-                        if (local.getEnableStorage() && local.getEnableAccess()) {
-                            registry.addResourceHandler(local.getPathPatterns())
-                                    .addResourceLocations("file:" + local.getBasePath());
-                        }
-                    }
-                    for (SpringLocalPlusConfig local : properties.getLocalPlus()) {
-                        if (local.getEnableStorage() && local.getEnableAccess()) {
-                            registry.addResourceHandler(local.getPathPatterns())
-                                    .addResourceLocations("file:" + local.getStoragePath());
-                        }
-                    }
-                }
-            };
-        }
     }
 }

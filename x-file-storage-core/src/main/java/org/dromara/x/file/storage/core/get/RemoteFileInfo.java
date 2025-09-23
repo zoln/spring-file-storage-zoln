@@ -7,13 +7,7 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.azure.storage.blob.implementation.models.BlobItemInternal;
 import com.azure.storage.blob.models.BlobProperties;
-import com.baidubce.services.bos.model.BosObject;
-import com.baidubce.services.bos.model.BosObjectSummary;
-import com.github.sardine.DavResource;
 import com.google.cloud.storage.Blob;
-import com.jcraft.jsch.ChannelSftp.LsEntry;
-import com.mongodb.client.gridfs.model.GridFSFile;
-import com.obs.services.model.ObsObject;
 import com.qcloud.cos.model.COSObject;
 import com.qcloud.cos.model.COSObjectSummary;
 import com.volcengine.tos.model.object.GetObjectV2Output;
@@ -28,11 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 import okhttp3.Response;
-import org.apache.commons.net.ftp.FTPFile;
 import org.dromara.x.file.storage.core.FileInfo;
-import org.dromara.x.file.storage.core.platform.FastDfsFileStorage.FastDfsFileInfo;
-import org.dromara.x.file.storage.core.platform.GoFastDfsFileStorageClientFactory.GoFastDfsClient.GetFileInfo.GetFileInfoData;
-import org.dromara.x.file.storage.core.platform.GoFastDfsFileStorageClientFactory.GoFastDfsClient.ListFileInfo.ListFileInfoDataItem;
 import org.dromara.x.file.storage.core.util.KebabCaseInsensitiveMap;
 import org.dromara.x.file.storage.core.util.Tools;
 import org.json.JSONObject;
@@ -214,47 +204,10 @@ public class RemoteFileInfo {
     }
 
     /**
-     * 获取百度云 BOS 存储平台的文件原始数据，失败返回 null，
-     * 仅在获取文件的返回值中使用
-     */
-    public BosObject getOriginalBaiduBosObject() {
-        return getOriginal(BosObject.class);
-    }
-
-    /**
-     * 获取百度云 BOS 存储平台的文件原始数据，失败返回 null，
-     * 仅在列举文件的返回值中使用
-     */
-    public BosObjectSummary getOriginalBaiduBosObjectSummary() {
-        return getOriginal(BosObjectSummary.class);
-    }
-
-    /**
-     * 获取 FastDFS 存储平台的文件原始数据，失败返回 null
-     */
-    public FastDfsFileInfo getOriginalFastDfs() {
-        return getOriginal(FastDfsFileInfo.class);
-    }
-
-    /**
-     * 获取 FTP 存储平台的文件原始数据，失败返回 null
-     */
-    public FTPFile getOriginalFtp() {
-        return getOriginal(FTPFile.class);
-    }
-
-    /**
      * 获取 Google Cloud Storage 存储平台的文件原始数据，失败返回 null
      */
     public Blob getOriginalGoogleCloudStorage() {
         return getOriginal(Blob.class);
-    }
-
-    /**
-     * 获取华为云 OBS 存储平台的文件原始数据，失败返回 null
-     */
-    public ObsObject getOriginalHuaweiObs() {
-        return getOriginal(ObsObject.class);
     }
 
     /**
@@ -288,13 +241,6 @@ public class RemoteFileInfo {
     }
 
     /**
-     * 获取 SFTP 存储平台的文件原始数据，失败返回 null
-     */
-    public LsEntry getOriginalSftp() {
-        return getOriginal(LsEntry.class);
-    }
-
-    /**
      * 获取腾讯云 COS 存储平台的文件原始数据，失败返回 null，
      * 仅在获取文件的返回值中使用
      */
@@ -324,36 +270,6 @@ public class RemoteFileInfo {
      */
     public JSONObject getOriginalUpyunUssJSONObject() {
         return getOriginal(JSONObject.class);
-    }
-
-    /**
-     * 获取 WebDAV 存储平台的文件原始数据，失败返回 null
-     */
-    public DavResource getOriginalWebDav() {
-        return getOriginal(DavResource.class);
-    }
-
-    /**
-     * 获取 Mongo GridFS 存储平台的文件原始数据，失败返回 null
-     */
-    public GridFSFile getOriginalMongoGridFs() {
-        return getOriginal(GridFSFile.class);
-    }
-
-    /**
-     * 获取 go-fastdfs 存储平台的文件原始数据，失败返回 null,
-     * 仅在获取文件的返回值中使用
-     */
-    public GetFileInfoData getOriginalGoFastDfsGetFileInfoData() {
-        return getOriginal(GetFileInfoData.class);
-    }
-
-    /**
-     * 获取 go-fastdfs 存储平台的文件原始数据，失败返回 null,
-     * 仅在列举文件的返回值中使用
-     */
-    public ListFileInfoDataItem getOriginalGoFastDfsListFileInfoDataItem() {
-        return getOriginal(ListFileInfoDataItem.class);
     }
 
     /**
